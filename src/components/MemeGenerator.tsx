@@ -9,25 +9,15 @@ import Icon from './Icon';
 import Link from 'next/link';
 import PageHeader from './PageHeader';
 
-const imageIds = [
-  '50_nuzdle',
-  '47_qlgxtw',
-  '49_xijmpp',
-  '48_a0zccs',
-  '43_zird5y',
-  '45_kocj0g',
-  '44_ur8xzf',
-  '46_ftgvdh',
-  '42_v8nmz3',
-  '39_tavxaq',
-  '41_k5hmk5',
-  '35_de1wbp',
-];
-const getRandomImageIndex = () => {
+const getRandomImageIndex = (imageIds: string[]) => {
   return Math.floor(Math.random() * imageIds.length);
 };
 
-export default function MemeGenerator() {
+interface MemeGeneratorProps {
+  imageIds: string[];
+}
+export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
+  console.log(imageIds);
   //TODO:util function to generate url
   const [imageIndex, setImageIndex] = useState<number | null>(null);
   const [topText, setTopText] = useState('');
@@ -40,7 +30,7 @@ export default function MemeGenerator() {
   const { user, loading, error } = UseUser();
 
   useEffect(() => {
-    setImageIndex(getRandomImageIndex());
+    setImageIndex(getRandomImageIndex(imageIds));
   }, []);
 
   useEffect(() => {
@@ -110,7 +100,7 @@ export default function MemeGenerator() {
   };
 
   const handleShuffle = () => {
-    const randomIndex = getRandomImageIndex();
+    const randomIndex = getRandomImageIndex(imageIds);
     setImageIndex(randomIndex);
     setIsImageLoaded(false);
   };
@@ -169,7 +159,7 @@ export default function MemeGenerator() {
 
         <div className="flex justify-center relative mb-4  h-[510px]">
           {!isImageLoaded && (
-            <div className="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 opacity-90">
+            <div className="flex rounded-lg justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 opacity-90">
               <p className="text-white text-2xl">Loading...</p>
             </div>
           )}
