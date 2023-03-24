@@ -14,8 +14,8 @@ export interface UserState {
   loading: boolean;
   error: string | null;
   logout: () => Promise<void>;
-  login: () => Promise<void>;
-  signup: () => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string, name: string) => Promise<void>;
 }
 
 const defaultState: UserState = {

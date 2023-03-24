@@ -7,24 +7,19 @@ import { useRouter } from 'next/router';
 import { account } from '@/utils/appwrite';
 import { Models } from 'appwrite';
 import PageHeader from './PageHeader';
+import { UseUser } from '@/hooks/User';
 
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [alert, setAlert] = useState("");
-  const [user, setUser] = useState<Models.Session>();
+  const { signup } = UseUser();
   const router = useRouter();
 
-  const signup = async (e: FormEvent<EventTarget>) => {
+  const handleSignup = async (e: FormEvent<EventTarget>) => {
     e.preventDefault();
-    try {
-      await account.create('unique()', email, password, name);
-      await account.createEmailSession(email, password);
-      router.push('/');
-    } catch (error) {
-      console.error(error);
-    }
+    await signup(email, password, name);
   };
 
   return (
@@ -33,7 +28,7 @@ const SignUp = () => {
       <section className="flex max-w-2xl mx-auto">
         <div className="flex-grow flex flex-col justify-center p-6">
           <PageHeader title="Sign up" />
-          <form onSubmit={signup}>
+          <form onSubmit={handleSignup}>
             <label className="block mt-6"> Name</label>
             <input
               className="w-full p-4 placeholder-gray-400 text-gray-700 bg-white text-lg border-0 border-b-2 border-gray-400 focus:ring-0 focus:border-gray-900"

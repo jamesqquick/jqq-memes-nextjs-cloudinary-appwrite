@@ -12,7 +12,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = UseUser();
-  //   const [alert, setAlert] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent<EventTarget>) => {
@@ -59,7 +58,7 @@ const Login = () => {
                 Login
               </button>
               <p className="mt-6">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="cursor-pointer underline">
                   Sign Up
                 </Link>

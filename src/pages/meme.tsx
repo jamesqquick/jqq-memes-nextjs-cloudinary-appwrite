@@ -1,12 +1,17 @@
 import Meme from '@/components/Meme';
 import PageHeader from '@/components/PageHeader';
-import { CldOgImage } from 'next-cloudinary';
 import { useRouter } from 'next/router';
 
-export default function MemePage(props) {
+export default function MemePage() {
   const router = useRouter();
   const { id, top, bottom } = router.query;
-
+  if (
+    typeof id !== 'string' ||
+    typeof top !== 'string' ||
+    typeof bottom !== 'string'
+  ) {
+    return <PageHeader title="Something went wrong..."></PageHeader>;
+  }
   return (
     <>
       <PageHeader title="JQQ Meme"></PageHeader>

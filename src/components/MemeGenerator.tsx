@@ -81,7 +81,7 @@ export default function MemeGenerator() {
     updateTimer();
   };
 
-  const handleSave = async (event) => {
+  const handleSave = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (!user) {
       return;
@@ -92,7 +92,7 @@ export default function MemeGenerator() {
         process.env.NEXT_PUBLIC_APPWRITE_MEMES_COLLECTION || '',
         ID.unique(),
         {
-          imageId: imageIds[imageIndex],
+          imageId: imageIndex ? imageIds[imageIndex] : null,
           userID: user.$id,
           topText,
           bottomText,
