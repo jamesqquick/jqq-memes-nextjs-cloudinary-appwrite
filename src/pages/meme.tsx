@@ -7,8 +7,8 @@ export default function MemePage() {
   const { id, top, bottom } = router.query;
   if (
     typeof id !== 'string' ||
-    typeof top !== 'string' ||
-    typeof bottom !== 'string'
+    (top && typeof top !== 'string') ||
+    (bottom && typeof bottom !== 'string')
   ) {
     return <PageHeader title="Something went wrong..."></PageHeader>;
   }
