@@ -29,7 +29,7 @@ export default function memes({ memes }: MemesProps) {
   );
 }
 
-interface Meme {
+export interface Meme {
   topText: string;
   bottomText: string;
   imageId: string;
