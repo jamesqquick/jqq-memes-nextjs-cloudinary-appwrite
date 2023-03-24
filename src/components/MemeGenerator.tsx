@@ -17,7 +17,6 @@ interface MemeGeneratorProps {
   imageIds: string[];
 }
 export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
-  console.log(imageIds);
   //TODO:util function to generate url
   const [imageIndex, setImageIndex] = useState<number | null>(null);
   const [topText, setTopText] = useState('');
