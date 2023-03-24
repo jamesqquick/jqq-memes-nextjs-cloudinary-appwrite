@@ -1,4 +1,4 @@
-import { CldImage } from 'next-cloudinary';
+import { CldImage, CldOgImage } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 import { AiOutlineCloudDownload } from 'react-icons/ai';
 import Icon from './Icon';
@@ -9,6 +9,8 @@ interface MemeProps {
   topText?: string;
   bottomText?: string;
   onLoadingCompleteCallback?: (image: HTMLImageElement) => void;
+  hasControls?: boolean;
+  includeOg?: boolean;
 }
 
 export default function Meme({
@@ -16,6 +18,8 @@ export default function Meme({
   topText,
   bottomText,
   onLoadingCompleteCallback,
+  hasControls = true,
+  includeOg = false,
 }: MemeProps) {
   const [topOverlay, setTopOverlay] = useState<any | null>(null);
   const [bottomOverlay, setBottomOverlay] = useState<any | null>(null);
@@ -81,8 +85,27 @@ export default function Meme({
     if (onLoadingCompleteCallback) onLoadingCompleteCallback(img);
   };
 
+  let shareURL = `${process.env.NEXT_PUBLIC_APP_URL}/meme?id=${imageId}`;
+  if (topText) {
+    shareURL += `&top=${topText}`;
+  }
+  if (bottomText) {
+    shareURL += `&bottom=${bottomText}`;
+  }
+  const formattedURL = encodeURI(shareURL);
+
   return (
-    <>
+    <div className="rounded-xl relative bg-blue-500 bg-gradient-to-r from-cyan-500 to-indigo-600 p-2">
+      {{ includeOg } && (
+        <CldOgImage
+          width="960"
+          height="540"
+          crop="fill"
+          src={`jqq-memes/${imageId}`}
+          alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
+          overlays={overlays}
+        />
+      )}
       <CldImage
         width="960"
         height="540"
@@ -93,19 +116,21 @@ export default function Meme({
         className="rounded-md"
         onLoadingComplete={handleOnLoadingComplete}
       />
-      <div className="absolute flex flex-col gap-4 top-[50%] translate-y-[-50%] right-4">
-        <Icon
-          className="bg-green-500"
-          href={imageURL}
-          download={true}
-          Icon={AiOutlineCloudDownload}
-        ></Icon>
-        <TweetButton
-          tags={['#JQQMemes']}
-          url={`/meme?topText=${top}&bottom=${bottomText}&id=${imageId}`}
-          title="JQQ Memes"
-        />
-      </div>
-    </>
+      {hasControls && (
+        <div className="absolute flex flex-col gap-4 top-[50%] translate-y-[-50%] right-4">
+          <Icon
+            className="bg-green-500"
+            href={imageURL}
+            download={true}
+            Icon={AiOutlineCloudDownload}
+          ></Icon>
+          <TweetButton
+            tags={['JQQMemes']}
+            url={formattedURL}
+            title="JQQ Memes"
+          />
+        </div>
+      )}
+    </div>
   );
 }

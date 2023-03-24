@@ -174,7 +174,7 @@ export default function MemeGenerator() {
             </div>
           )}
           {!isDebouncing && imageIndex && (
-            <div className=" rounded-xl bg-blue-500 p-2">
+            <div>
               <Meme
                 topText={topText}
                 bottomText={bottomText}

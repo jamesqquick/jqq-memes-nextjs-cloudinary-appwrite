@@ -9,9 +9,9 @@ export default function memes({ memes }) {
     <>
       <PageHeader
         title="Community Memes"
-        subtitle="The best memes from the community"
+        subtitle="The best memes from the community."
       />
-      <div className="grid gap-10">
+      <div className="grid gap-10 my-10 lg:grid-cols-2">
         {memes.map(({ topText, bottomText, imageId }, i) => (
           <Meme
             topText={topText}
