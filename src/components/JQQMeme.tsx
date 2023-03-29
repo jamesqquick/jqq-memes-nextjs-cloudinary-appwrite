@@ -109,6 +109,7 @@ export default function JQQMeme({
           crop="fill"
           src={`jqq-memes/${imageId}`}
           alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
+          twitterTitle={`Meme of James Q Quick`}
           // @ts-ignore
           overlays={overlays}
         />
