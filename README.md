@@ -1,38 +1,55 @@
-This is a James Q Quick meme generator using Next.js, Cloudinary, and Appwrite.
+# JQQ Memes Next.js Cloudinary Appwrite
+
+This project is a meme generator that uses freeze frames images from James Q Quick's YouTube videos. The project is built with Next.js, Cloudinary, and Appwrite.
+
+![Generate a meme dashboard](/images/meme1.jpg)
 
 ## Getting Started
 
-First, run the development server:
+To get started with this project, you can clone the repository to your local machine:
+
+```bash
+git clone https://github.com/jamesqquick/jqq-memes-nextjs-cloudinary-appwrite.git
+```
+
+After cloning the repository, navigate to the project directory and install the dependencies:
+
+```bash
+cd jqq-memes-nextjs-cloudinary-appwrite
+npm install
+```
+
+Next, you'll need to set up the environment variables. Create a .env.local file in the project root and fill in the following variables:
+
+```
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+APPWRITE_API_ENDPOINT=
+APPWRITE_PROJECT_ID=
+APPWRITE_API_KEY=
+```
+
+You can obtain the values for these variables by signing up for a free account at [Cloudinary](https://cloudinary.com/) and [Appwrite](https://appwrite.io/).
+
+Once you've set up the environment variables, you can start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The development server should be running at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To use the meme generator, you can visit http://localhost:3000 in your web browser. From there, you can select a video and choose a freeze frame to use as the base for your meme. You can add text to the top and bottom of the image, and then generate your meme by clicking the "Generate Meme" button.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Once you've generated your meme, you can download it or share it on social media.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contributing
 
-## Learn More
+If you'd like to contribute to this project, you can fork the repository and submit a pull request. Before submitting a pull request, please make sure your changes are well-tested and follow the existing coding style.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the [MIT License](https://chat.openai.com/chat/LICENSE). See the LICENSE file for details.
