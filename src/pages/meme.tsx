@@ -1,4 +1,4 @@
-import Meme from '@/components/Meme';
+import Meme from '@/components/JQQMeme';
 import PageHeader from '@/components/PageHeader';
 import { useRouter } from 'next/router';
 

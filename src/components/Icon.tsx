@@ -20,7 +20,7 @@ export default function Icon({
   if (isButton) {
     return (
       <button
-        className={`rounded-full p-3 shadow hover:shadow-none hover:-translate-y-1 transition duration-300 ease-in-out ${className}`}
+        className={`rounded-full  p-3 shadow hover:shadow-none hover:-translate-y-1 transition duration-300 ease-in-out ${className} `}
         onClick={() => handleClick && handleClick()}
         type="button"
       >

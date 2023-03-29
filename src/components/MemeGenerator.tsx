@@ -4,7 +4,7 @@ import { ID } from 'appwrite';
 import { UseUser } from '@/hooks/User';
 import { BsShuffle } from 'react-icons/bs';
 
-import Meme from './Meme';
+import JQQMeme from './JQQMeme';
 import Icon from './Icon';
 import Link from 'next/link';
 import PageHeader from './PageHeader';
@@ -116,7 +116,10 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
         />
         <p className="mt-6 text-lg leading-8 text-gray-600"></p>
       </div>
-      <form className="w-full mt-16" onSubmit={handleSave}>
+      <form
+        className="w-full mt-16 max-w-[960px] mx-auto"
+        onSubmit={handleSave}
+      >
         <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2 mb-4">
           <div>
             <label
@@ -156,7 +159,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           </div>
         </div>
 
-        <div className="flex justify-center relative mb-4  h-[510px]">
+        <div className="flex justify-center relative mb-4 ">
           {!isImageLoaded && (
             <div className="flex rounded-lg justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 opacity-90">
               <p className="text-white text-2xl">Loading...</p>
@@ -164,7 +167,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           )}
           {!isDebouncing && imageIndex && (
             <div>
-              <Meme
+              <JQQMeme
                 topText={topText}
                 bottomText={bottomText}
                 imageId={imageIds[imageIndex]}

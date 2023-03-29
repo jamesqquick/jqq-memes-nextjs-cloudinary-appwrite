@@ -11,15 +11,17 @@ interface MemeProps {
   onLoadingCompleteCallback?: (image: HTMLImageElement) => void;
   hasControls?: boolean;
   includeOg?: boolean;
+  hasBorder?: boolean;
 }
 
-export default function Meme({
+export default function JQQMeme({
   imageId,
   topText,
   bottomText,
   onLoadingCompleteCallback,
   hasControls = true,
   includeOg = false,
+  hasBorder = true,
 }: MemeProps) {
   const [topOverlay, setTopOverlay] = useState<any | null>(null);
   const [bottomOverlay, setBottomOverlay] = useState<any | null>(null);
@@ -95,7 +97,11 @@ export default function Meme({
   const formattedURL = encodeURI(shareURL);
 
   return (
-    <div className="rounded-xl relative bg-blue-500 bg-gradient-to-r from-cyan-500 to-indigo-600 p-2">
+    <div
+      className={`rounded-xl relative  ${
+        hasBorder && 'bg-gradient-to-r'
+      } from-cyan-500 to-indigo-600 p-2`}
+    >
       {{ includeOg } && (
         <CldOgImage
           width="960"

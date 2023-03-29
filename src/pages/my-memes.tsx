@@ -1,7 +1,8 @@
-import Meme from '@/components/Meme';
+import MemeList from '@/components/MemeList';
 import PageHeader from '@/components/PageHeader';
 import { UseUser } from '@/hooks/User';
 import { databases } from '@/utils/appwrite';
+import { Meme } from '@/utils/types';
 import { Query } from 'appwrite';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -38,21 +39,7 @@ export default function Memes() {
     <>
       <PageHeader title="My Amazing Memes" />
       {loadingMemes && <p>Loading your amazing memes...</p>}
-      <div className="grid gap-10 my-10 lg:grid-cols-2">
-        {memes.map(({ topText, bottomText, imageId }, i) => (
-          <Meme
-            topText={topText}
-            bottomText={bottomText}
-            imageId={imageId}
-            key={i}
-          />
-        ))}
-      </div>
+      <MemeList memes={memes} />
     </>
   );
-}
-export interface Meme {
-  topText: string;
-  bottomText: string;
-  imageId: string;
 }
