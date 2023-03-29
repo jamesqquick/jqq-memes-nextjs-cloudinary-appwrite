@@ -98,7 +98,7 @@ export default function JQQMeme({
 
   return (
     <div
-      className={`rounded-xl relative  ${
+      className={`rounded-xl relative max-w-[960px] mx-auto  ${
         hasBorder && 'bg-gradient-to-r'
       } from-cyan-500 to-indigo-600 p-2`}
     >
