@@ -1,10 +1,14 @@
 import Meme from '@/components/JQQMeme';
 import PageHeader from '@/components/PageHeader';
-import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next/types';
 
-export default function MemePage() {
-  const router = useRouter();
-  const { id, top, bottom } = router.query;
+interface MemePageProps {
+  id: string;
+  top?: string;
+  bottom?: string;
+}
+
+export default function MemePage({ id, top, bottom }: MemePageProps) {
   if (
     typeof id !== 'string' ||
     (top && typeof top !== 'string') ||
@@ -19,3 +23,13 @@ export default function MemePage() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {
+      id: context.params?.id,
+      top: context.params?.top,
+      bottom: context.params?.bottom,
+    },
+  };
+};
