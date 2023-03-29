@@ -102,7 +102,7 @@ export default function JQQMeme({
         hasBorder && 'bg-gradient-to-r'
       } from-cyan-500 to-indigo-600 p-2`}
     >
-      {{ includeOg } && (
+      {/* {{ includeOg } && (
         <CldOgImage
           width="960"
           height="540"
@@ -113,7 +113,7 @@ export default function JQQMeme({
           // @ts-ignore
           overlays={overlays}
         />
-      )}
+      )} */}
       <CldImage
         width="960"
         height="540"
