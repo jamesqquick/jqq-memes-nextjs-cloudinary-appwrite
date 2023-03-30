@@ -71,6 +71,7 @@ export default function MemePage({ id, top, bottom }: MemePageProps) {
         twitterTitle={`Meme of James Q Quick`}
         // @ts-ignore
         overlays={overlays}
+        keys={{}}
       />
     </>
   );
