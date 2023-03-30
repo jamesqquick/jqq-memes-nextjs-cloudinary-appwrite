@@ -93,6 +93,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   };
 
   const handleOnLoadingComplete = (img: HTMLImageElement) => {
+    console.log(img);
     setTimeout(() => {
       setIsImageLoaded(true);
     }, 1000);
@@ -159,19 +160,15 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           </div>
         </div>
 
-        <div className="flex justify-center relative mb-4 aspect-video rounded-lg ">
-          {!isImageLoaded && (
-            <div className="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 rounded-lg">
-              <p className="text-white text-2xl">Loading...</p>
-            </div>
-          )}
-          {!isDebouncing && imageIndex && (
-            <div>
+        <div className="flex justify-center relative mb-4 rounded-lg  aspect-video">
+          {imageIndex && !isDebouncing && (
+            <>
               <JQQMeme
                 topText={topText}
                 bottomText={bottomText}
                 imageId={imageIds[imageIndex]}
                 onLoadingCompleteCallback={handleOnLoadingComplete}
+                hasBorder={false}
               />
               <div className="flex justify-between absolute right-4 top-4">
                 <Icon
@@ -181,7 +178,16 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
                   className="bg-indigo-500"
                 />
               </div>
-            </div>
+            </>
+          )}
+          {!isImageLoaded && (
+            <>
+              <div className="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-blue-900 rounded-lg"></div>
+              <div
+                className="inline-block h-12 w-12 text-gray-100 animate-spin absolute top-1/2 rounded-full opacity-100 border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              ></div>
+            </>
           )}
         </div>
         {!loading && user && (
