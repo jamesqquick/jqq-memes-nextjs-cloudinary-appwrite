@@ -159,9 +159,9 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           </div>
         </div>
 
-        <div className="flex justify-center relative mb-4 ">
+        <div className="flex justify-center relative mb-4 aspect-video rounded-lg ">
           {!isImageLoaded && (
-            <div className="flex rounded-lg justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 opacity-90">
+            <div className="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-gray-900 rounded-lg">
               <p className="text-white text-2xl">Loading...</p>
             </div>
           )}

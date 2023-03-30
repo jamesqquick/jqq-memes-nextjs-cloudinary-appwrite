@@ -121,7 +121,7 @@ export default function JQQMeme({
         src={`jqq-memes/${imageId}`}
         alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
         overlays={overlays}
-        className="rounded-md"
+        className="rounded-lg"
         onLoadingComplete={handleOnLoadingComplete}
       />
       {hasControls && (
