@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="bg-gradient-to-r p-2 from-cyan-500 to-indigo-600">
+    <main className="">
       <div className="pb-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-10">
           <PageHeader
