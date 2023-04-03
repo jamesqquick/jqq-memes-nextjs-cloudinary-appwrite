@@ -36,16 +36,8 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
     if (isDebouncing) {
       return;
     }
-    if (topTextInput) {
-      setTopText(topTextInput);
-    } else {
-      setTopText('');
-    }
-    if (bottomTextInput) {
-      setBottomText(bottomTextInput);
-    } else {
-      setBottomText('');
-    }
+    setTopText(topTextInput);
+    setBottomText(bottomTextInput);
   }, [isDebouncing, topText, topTextInput, bottomText, bottomTextInput]);
 
   const updateTimer = () => {
@@ -103,6 +95,24 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
     const randomIndex = getRandomImageIndex(imageIds);
     setImageIndex(randomIndex);
     setIsImageLoaded(false);
+  };
+
+  const handleGenerateTextWithAI = async () => {
+    setIsImageLoaded(false);
+    try {
+      const res = await fetch(`/api/meme-text?id=${imageIds[imageIndex || 0]}`);
+      if (res.status !== 200) {
+        console.error('Error generating text with AI');
+      } else {
+        const { memeText } = await res.json();
+        setTopTextInput(memeText.topText);
+        setBottomTextInput(memeText.bottomText);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsImageLoaded(true);
+    }
   };
 
   return (
@@ -191,9 +201,17 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           )}
         </div>
         {!loading && user && (
-          <button className="text-white text-lg rounded-md border-none bg-gray-600 px-4 py-2 hover:bg-gray-700">
-            Save
-          </button>
+          <>
+            <button className="text-white text-lg rounded-md border-none bg-gray-600 px-4 py-2 hover:bg-gray-700">
+              Save
+            </button>
+            <button
+              className="text-white text-lg rounded-md border-none bg-gray-600 px-4 py-2 hover:bg-gray-700"
+              onClick={handleGenerateTextWithAI}
+            >
+              Use AI
+            </button>
+          </>
         )}
         {!loading && !user && (
           <Link
