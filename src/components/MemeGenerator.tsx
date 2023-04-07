@@ -207,7 +207,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
               htmlFor="bottomTextSize"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              Top Text Size
+              Bottom Text Size
             </label>
             <div className="mt-2.5">
               <input
