@@ -12,6 +12,8 @@ interface MemeProps {
   hasControls?: boolean;
   includeOg?: boolean;
   hasBorder?: boolean;
+  topTextSize: number;
+  bottomTextSize: number;
 }
 
 export default function JQQMeme({
@@ -22,6 +24,8 @@ export default function JQQMeme({
   hasControls = true,
   includeOg = false,
   hasBorder = true,
+  topTextSize,
+  bottomTextSize,
 }: MemeProps) {
   const [topOverlay, setTopOverlay] = useState<any | null>(null);
   const [bottomOverlay, setBottomOverlay] = useState<any | null>(null);
@@ -40,7 +44,7 @@ export default function JQQMeme({
         text: {
           color: 'white',
           fontFamily: 'Source Sans Pro',
-          fontSize: 80,
+          fontSize: topTextSize,
           fontWeight: 'bold',
           stroke: true,
           border: '20px_solid_black',
@@ -62,7 +66,7 @@ export default function JQQMeme({
         text: {
           color: 'white',
           fontFamily: 'Source Sans Pro',
-          fontSize: 80,
+          fontSize: bottomTextSize,
           fontWeight: 'bold',
           stroke: true,
           border: '20px_solid_black',
@@ -72,8 +76,9 @@ export default function JQQMeme({
     } else {
       setBottomOverlay(null);
     }
-  }, [topText, bottomText]);
+  }, [topText, bottomText, bottomTextSize, topTextSize]);
 
+  console.log(topTextSize, bottomTextSize);
   const overlays = [];
   if (topOverlay) {
     overlays.push(topOverlay);

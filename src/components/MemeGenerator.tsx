@@ -21,6 +21,10 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const [imageIndex, setImageIndex] = useState<number | null>(null);
   const [topText, setTopText] = useState('');
   const [bottomText, setBottomText] = useState('');
+  const [topTextSize, setTopTextSize] = useState(80);
+  const [bottomTextSize, setBottomTextSize] = useState(80);
+  const [topTextSizeInput, setTopTextSizeInput] = useState(80);
+  const [bottomTextSizeInput, setBottomTextSizeInput] = useState(80);
   const [topTextInput, setTopTextInput] = useState<string>('');
   const [bottomTextInput, setBottomTextInput] = useState<string>('');
   const [isDebouncing, setIsDebouncing] = useState(false);
@@ -46,7 +50,18 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
     } else {
       setBottomText('');
     }
-  }, [isDebouncing, topText, topTextInput, bottomText, bottomTextInput]);
+
+    setTopTextSize(topTextSizeInput);
+    setBottomTextSize(bottomTextSizeInput);
+  }, [
+    isDebouncing,
+    topText,
+    topTextInput,
+    bottomText,
+    bottomTextInput,
+    topTextSizeInput,
+    bottomTextSizeInput,
+  ]);
 
   const updateTimer = () => {
     setIsDebouncing(true);
@@ -67,6 +82,16 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
 
   const handleBottomTextChange = (event: any) => {
     setBottomTextInput(event.currentTarget.value);
+    updateTimer();
+  };
+
+  const handleTopTextSizeChange = (event: any) => {
+    setTopTextSizeInput(event.currentTarget.value);
+    updateTimer();
+  };
+
+  const handleBottomTextSizeChange = (event: any) => {
+    setBottomTextSizeInput(event.currentTarget.value);
     updateTimer();
   };
 
@@ -93,7 +118,6 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   };
 
   const handleOnLoadingComplete = (img: HTMLImageElement) => {
-    console.log(img);
     setTimeout(() => {
       setIsImageLoaded(true);
     }, 1000);
@@ -142,6 +166,26 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           </div>
           <div>
             <label
+              htmlFor="topTextSize"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              Top Text Size
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="range"
+                min={40}
+                max={140}
+                value={topTextSizeInput}
+                name="topTextSize"
+                id="topTextSizea"
+                className="block w-full rounded-md py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                onChange={handleTopTextSizeChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label
               htmlFor="bottomText"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
@@ -158,6 +202,26 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
               />
             </div>
           </div>
+          <div>
+            <label
+              htmlFor="bottomTextSize"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              Top Text Size
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="range"
+                min={40}
+                max={140}
+                value={bottomTextSizeInput}
+                name="bottomTextSize"
+                id="bottomTextSizea"
+                className="block w-full rounded-md py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                onChange={handleBottomTextSizeChange}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex justify-center relative mb-4 rounded-lg  aspect-video">
@@ -169,6 +233,8 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
                 imageId={imageIds[imageIndex]}
                 onLoadingCompleteCallback={handleOnLoadingComplete}
                 hasBorder={false}
+                topTextSize={topTextSize}
+                bottomTextSize={bottomTextSize}
               />
               <div className="flex justify-between absolute right-4 top-4">
                 <Icon
