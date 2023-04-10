@@ -64,15 +64,15 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   ]);
 
   const updateTimer = () => {
-    setIsDebouncing(true);
-    setIsImageLoaded(false);
-    if (timer) {
-      clearTimeout(timer);
-    }
-    const id = setTimeout(() => {
-      setIsDebouncing(false);
-    }, 1000);
-    setTimer(id);
+    // setIsDebouncing(true);
+    // setIsImageLoaded(false);
+    // if (timer) {
+    //   clearTimeout(timer);
+    // }
+    // const id = setTimeout(() => {
+    //   setIsDebouncing(false);
+    // }, 1000);
+    // setTimer(id);
   };
 
   const handleTopTextChange = (event: any) => {
@@ -126,7 +126,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const handleShuffle = () => {
     const randomIndex = getRandomImageIndex(imageIds);
     setImageIndex(randomIndex);
-    setIsImageLoaded(false);
+    // setIsImageLoaded(false);
   };
 
   return (
@@ -171,18 +171,15 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
             >
               Top Text Size
             </label>
-            <div className="mt-2.5">
-              <input
-                type="range"
-                min={40}
-                max={140}
-                value={topTextSizeInput}
-                name="topTextSize"
-                id="topTextSizea"
-                className="block w-full rounded-md py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={handleTopTextSizeChange}
-              />
-            </div>
+            <input
+              id="topTextSize"
+              type="range"
+              min={40}
+              max={140}
+              value={topTextSizeInput}
+              className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
+              onChange={handleTopTextSizeChange}
+            />
           </div>
           <div>
             <label
@@ -209,18 +206,15 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
             >
               Bottom Text Size
             </label>
-            <div className="mt-2.5">
-              <input
-                type="range"
-                min={40}
-                max={140}
-                value={bottomTextSizeInput}
-                name="bottomTextSize"
-                id="bottomTextSizea"
-                className="block w-full rounded-md py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onChange={handleBottomTextSizeChange}
-              />
-            </div>
+            <input
+              id="bottomTextSize"
+              type="range"
+              min={40}
+              max={140}
+              value={bottomTextSizeInput}
+              className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
+              onChange={handleBottomTextSizeChange}
+            />
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { CldImage, CldOgImage } from 'next-cloudinary';
+import { getCldImageUrl } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 import { AiOutlineCloudDownload } from 'react-icons/ai';
 import Icon from './Icon';
@@ -20,9 +20,7 @@ export default function JQQMeme({
   imageId,
   topText,
   bottomText,
-  onLoadingCompleteCallback,
   hasControls = true,
-  includeOg = false,
   hasBorder = true,
   topTextSize,
   bottomTextSize,
@@ -30,8 +28,29 @@ export default function JQQMeme({
   const [topOverlay, setTopOverlay] = useState<any | null>(null);
   const [bottomOverlay, setBottomOverlay] = useState<any | null>(null);
   const [imageURL, setImageURL] = useState('');
+  const [overlays, setOverlays] = useState([]);
 
   useEffect(() => {
+    const tempOverlays = [];
+    if (topOverlay) {
+      tempOverlays.push(topOverlay);
+    }
+    if (bottomOverlay) {
+      tempOverlays.push(bottomOverlay);
+    }
+    setOverlays(tempOverlays);
+
+    console.log('useEffect');
+    console.log(imageId);
+    const updatedImageURL = getCldImageUrl({
+      width: '960',
+      height: '540',
+      src: `jqq-memes/${imageId}`,
+      crop: 'fill',
+      overlays: tempOverlays,
+    });
+    console.log(updatedImageURL);
+    setImageURL(updatedImageURL);
     if (topText) {
       setTopOverlay({
         width: 960,
@@ -76,21 +95,12 @@ export default function JQQMeme({
     } else {
       setBottomOverlay(null);
     }
-  }, [topText, bottomText, bottomTextSize, topTextSize]);
+  }, [topText, bottomText, bottomTextSize, topTextSize, imageId]);
 
-  console.log(topTextSize, bottomTextSize);
-  const overlays = [];
-  if (topOverlay) {
-    overlays.push(topOverlay);
-  }
-  if (bottomOverlay) {
-    overlays.push(bottomOverlay);
-  }
-
-  const handleOnLoadingComplete = (img: HTMLImageElement) => {
-    setImageURL(img.src);
-    if (onLoadingCompleteCallback) onLoadingCompleteCallback(img);
-  };
+  //   const handleOnLoadingComplete = (img: HTMLImageElement) => {
+  //     setImageURL(img.src);
+  //     if (onLoadingCompleteCallback) onLoadingCompleteCallback(img);
+  //   };
 
   let shareURL = `${process.env.NEXT_PUBLIC_APP_URL}/meme?id=${imageId}`;
   if (topText) {
@@ -121,7 +131,7 @@ export default function JQQMeme({
       )} */}
       <div className="relative">
         <img
-          src="https://res.cloudinary.com/jamesqquick/image/upload/c_fill,w_960,h_540,g_auto/f_auto/q_auto/v1/jqq-memes/40_zdddqq?_a=AVABoDV0"
+          src={`https://res.cloudinary.com/jamesqquick/image/upload/c_fill,w_960,h_540,g_auto/f_auto/q_auto/v1/jqq-memes/${imageId}`}
           height={540}
           width={960}
         />
@@ -132,30 +142,34 @@ export default function JQQMeme({
               textShadow:
                 '-5px 0px 3px black, 0px 5px 3px black, 5px 0px 3px black, 0px -5px 3px black',
             }}
-            className={`text-white  absolute top-5 text-center w-full px-4 `}
+            className={`text-white  absolute top-5 text-center w-full px-4 font-bold font-mono `}
           >
             {topText}
           </p>
         )}
         {bottomText && (
           <p
-            style={{ fontSize: `${bottomTextSize}px` }}
-            className={`text-white absolute bottom-5 text-center w-full px-4 drop-shadow-md `}
+            style={{
+              fontSize: `${bottomTextSize}px`,
+              textShadow:
+                '-5px 0px 3px black, 0px 5px 3px black, 5px 0px 3px black, 0px -5px 3px black',
+            }}
+            className={`text-white absolute bottom-5 text-center w-full px-4 font-bold font-mono  `}
           >
             {bottomText}
           </p>
         )}
       </div>
-      <CldImage
+      {/* <CldImage
         width="960"
         height="540"
         crop="fill"
         src={`jqq-memes/${imageId}`}
         alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
-        // overlays={overlays}
+        overlays={overlays}
         className="rounded-lg"
         onLoadingComplete={handleOnLoadingComplete}
-      />
+      /> */}
       {hasControls && (
         <div className="absolute flex flex-col gap-4 top-[50%] translate-y-[-50%] right-4">
           <Icon
