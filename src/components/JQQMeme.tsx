@@ -119,13 +119,40 @@ export default function JQQMeme({
           overlays={overlays}
         />
       )} */}
+      <div className="relative">
+        <img
+          src="https://res.cloudinary.com/jamesqquick/image/upload/c_fill,w_960,h_540,g_auto/f_auto/q_auto/v1/jqq-memes/40_zdddqq?_a=AVABoDV0"
+          height={540}
+          width={960}
+        />
+        {topText && (
+          <p
+            style={{
+              fontSize: `${topTextSize}px`,
+              textShadow:
+                '-5px 0px 3px black, 0px 5px 3px black, 5px 0px 3px black, 0px -5px 3px black',
+            }}
+            className={`text-white  absolute top-5 text-center w-full px-4 `}
+          >
+            {topText}
+          </p>
+        )}
+        {bottomText && (
+          <p
+            style={{ fontSize: `${bottomTextSize}px` }}
+            className={`text-white absolute bottom-5 text-center w-full px-4 drop-shadow-md `}
+          >
+            {bottomText}
+          </p>
+        )}
+      </div>
       <CldImage
         width="960"
         height="540"
         crop="fill"
         src={`jqq-memes/${imageId}`}
         alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
-        overlays={overlays}
+        // overlays={overlays}
         className="rounded-lg"
         onLoadingComplete={handleOnLoadingComplete}
       />
