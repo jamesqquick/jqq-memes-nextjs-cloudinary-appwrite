@@ -28,6 +28,9 @@ export default function Home() {
               imageId="24_jrrpwn"
               hasControls={false}
               hasBorder={false}
+              showCloudinaryImage={true}
+              topTextSize={80}
+              bottomTextSize={80}
             />
           </div>
           <div>
@@ -37,6 +40,9 @@ export default function Home() {
               topText="I Like JavaScript"
               bottomText="I Think..."
               hasControls={false}
+              showCloudinaryImage={true}
+              topTextSize={80}
+              bottomTextSize={80}
             />
           </div>
         </div>

@@ -17,7 +17,7 @@ export default function Memes() {
     const { documents } = await databases.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID || '',
       process.env.NEXT_PUBLIC_APPWRITE_MEMES_COLLECTION || '',
-      [Query.equal('approved', true), Query.equal('userID', userID)]
+      [Query.equal('userID', userID)]
     );
     const memes = documents as unknown as Meme[];
     setMemes(memes);

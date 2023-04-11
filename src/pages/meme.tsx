@@ -1,4 +1,4 @@
-import Meme from '@/components/JQQMeme';
+import JQQMeme from '@/components/JQQMeme';
 import PageHeader from '@/components/PageHeader';
 import { CldOgImage } from 'next-cloudinary';
 import { GetServerSideProps } from 'next/types';
@@ -61,7 +61,15 @@ export default function MemePage({ id, top, bottom }: MemePageProps) {
   return (
     <>
       <PageHeader title="JQQ Meme"></PageHeader>
-      <Meme imageId={id} topText={top} bottomText={bottom} includeOg={true} />
+      <JQQMeme
+        imageId={id}
+        topText={top}
+        bottomText={bottom}
+        includeOg={true}
+        topTextSize={80}
+        bottomTextSize={80}
+        showCloudinaryImage={true}
+      />
       <CldOgImage
         width="960"
         height="540"

@@ -1,5 +1,7 @@
-import { getCldImageUrl } from 'next-cloudinary';
-import { useEffect, useState } from 'react';
+import useResize from '@/hooks/useResize';
+import { CldImage, getCldImageUrl } from 'next-cloudinary';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineCloudDownload } from 'react-icons/ai';
 import Icon from './Icon';
 import { TweetButton } from './TweetButton';
@@ -14,6 +16,7 @@ interface MemeProps {
   hasBorder?: boolean;
   topTextSize: number;
   bottomTextSize: number;
+  showCloudinaryImage?: boolean;
 }
 
 export default function JQQMeme({
@@ -24,35 +27,19 @@ export default function JQQMeme({
   hasBorder = true,
   topTextSize,
   bottomTextSize,
+  showCloudinaryImage = false,
 }: MemeProps) {
-  const [topOverlay, setTopOverlay] = useState<any | null>(null);
   const [bottomOverlay, setBottomOverlay] = useState<any | null>(null);
   const [imageURL, setImageURL] = useState('');
   const [overlays, setOverlays] = useState([]);
-
-  useEffect(() => {
+  const imageRef = useRef(null);
+  const { width } = useResize(imageRef);
+  console.log(width);
+  const updateOverlays = () => {
     const tempOverlays = [];
-    if (topOverlay) {
-      tempOverlays.push(topOverlay);
-    }
-    if (bottomOverlay) {
-      tempOverlays.push(bottomOverlay);
-    }
-    setOverlays(tempOverlays);
 
-    console.log('useEffect');
-    console.log(imageId);
-    const updatedImageURL = getCldImageUrl({
-      width: '960',
-      height: '540',
-      src: `jqq-memes/${imageId}`,
-      crop: 'fill',
-      overlays: tempOverlays,
-    });
-    console.log(updatedImageURL);
-    setImageURL(updatedImageURL);
     if (topText) {
-      setTopOverlay({
+      tempOverlays.push({
         width: 960,
         crop: 'fit',
         position: {
@@ -70,11 +57,9 @@ export default function JQQMeme({
           text: topText,
         },
       });
-    } else {
-      setTopOverlay(null);
     }
     if (bottomText) {
-      setBottomOverlay({
+      tempOverlays.push({
         width: 960,
         crop: 'fit',
         position: {
@@ -92,15 +77,21 @@ export default function JQQMeme({
           text: bottomText,
         },
       });
-    } else {
-      setBottomOverlay(null);
     }
-  }, [topText, bottomText, bottomTextSize, topTextSize, imageId]);
+    const updatedImageURL = getCldImageUrl({
+      width: '960',
+      height: '540',
+      src: `jqq-memes/${imageId}`,
+      crop: 'fill',
+      overlays: tempOverlays,
+    });
+    setImageURL(updatedImageURL);
+    setOverlays(tempOverlays);
+  };
 
-  //   const handleOnLoadingComplete = (img: HTMLImageElement) => {
-  //     setImageURL(img.src);
-  //     if (onLoadingCompleteCallback) onLoadingCompleteCallback(img);
-  //   };
+  useEffect(() => {
+    updateOverlays();
+  }, [topText, bottomText, imageId, topTextSize, bottomTextSize]);
 
   let shareURL = `${process.env.NEXT_PUBLIC_APP_URL}/meme?id=${imageId}`;
   if (topText) {
@@ -116,6 +107,7 @@ export default function JQQMeme({
       className={`rounded-xl relative max-w-[960px] mx-auto  ${
         hasBorder && 'bg-gradient-to-r p-2 from-cyan-500 to-indigo-600 '
       } `}
+      ref={imageRef}
     >
       {/* {{ includeOg } && (
         <CldOgImage
@@ -129,51 +121,60 @@ export default function JQQMeme({
           overlays={overlays}
         />
       )} */}
-      <div className="relative">
-        <img
-          src={`https://res.cloudinary.com/jamesqquick/image/upload/c_fill,w_960,h_540,g_auto/f_auto/q_auto/v1/jqq-memes/${imageId}`}
-          height={540}
-          width={960}
+      {!showCloudinaryImage && (
+        <div className="relative">
+          <Image
+            src={`https://res.cloudinary.com/jamesqquick/image/upload/c_fill,w_960,h_540,g_auto/f_auto/q_auto/v1/jqq-memes/${imageId}`}
+            height={540}
+            width={960}
+            alt="Meme of James Q Quick"
+          />
+          {topText && (
+            <p
+              style={{
+                fontSize: `${topTextSize * (width / 960)}px`,
+                WebkitTextStroke: `${width < 500 ? 2 : 4}px black`,
+                top: hasBorder ? '10px' : '-10px',
+              }}
+              className={`text-white  absolute text-center w-full px-4 font-bold font-mono `}
+            >
+              {topText}
+            </p>
+          )}
+          {bottomText && (
+            <p
+              style={{
+                fontSize: `${bottomTextSize * (width / 960)}px`,
+                WebkitTextStroke: `${width < 500 ? 2 : 4}px black`,
+                bottom: hasBorder ? '10px' : '-10px',
+              }}
+              className={`text-white absolute text-center w-full px-4 font-bold font-mono  `}
+            >
+              {bottomText}
+            </p>
+          )}
+        </div>
+      )}
+
+      {showCloudinaryImage && (
+        <CldImage
+          width="960"
+          height="540"
+          crop="fill"
+          src={`jqq-memes/${imageId}`}
+          alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
+          overlays={overlays}
+          className="rounded-lg"
         />
-        {topText && (
-          <p
-            style={{
-              fontSize: `${topTextSize}px`,
-              textShadow:
-                '-5px 0px 3px black, 0px 5px 3px black, 5px 0px 3px black, 0px -5px 3px black',
-            }}
-            className={`text-white  absolute top-5 text-center w-full px-4 font-bold font-mono `}
-          >
-            {topText}
-          </p>
-        )}
-        {bottomText && (
-          <p
-            style={{
-              fontSize: `${bottomTextSize}px`,
-              textShadow:
-                '-5px 0px 3px black, 0px 5px 3px black, 5px 0px 3px black, 0px -5px 3px black',
-            }}
-            className={`text-white absolute bottom-5 text-center w-full px-4 font-bold font-mono  `}
-          >
-            {bottomText}
-          </p>
-        )}
-      </div>
-      {/* <CldImage
-        width="960"
-        height="540"
-        crop="fill"
-        src={`jqq-memes/${imageId}`}
-        alt={`Freezeframe of James Q Quick with top text ${topText} and bottom text ${bottomText}`}
-        overlays={overlays}
-        className="rounded-lg"
-        onLoadingComplete={handleOnLoadingComplete}
-      /> */}
+      )}
       {hasControls && (
-        <div className="absolute flex flex-col gap-4 top-[50%] translate-y-[-50%] right-4">
+        <div
+          className={`absolute flex flex-col gap-4 top-[50%] translate-y-[-50%] right-4 ${
+            width < 500 ? 'scale-50' : 'scale-100'
+          }`}
+        >
           <Icon
-            className="bg-green-500"
+            className={`bg-green-500`}
             href={imageURL}
             download={true}
             Icon={AiOutlineCloudDownload}

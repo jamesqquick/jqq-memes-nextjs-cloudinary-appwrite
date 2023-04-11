@@ -23,79 +23,34 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const [bottomText, setBottomText] = useState('');
   const [topTextSize, setTopTextSize] = useState(80);
   const [bottomTextSize, setBottomTextSize] = useState(80);
-  const [topTextSizeInput, setTopTextSizeInput] = useState(80);
-  const [bottomTextSizeInput, setBottomTextSizeInput] = useState(80);
-  const [topTextInput, setTopTextInput] = useState<string>('');
-  const [bottomTextInput, setBottomTextInput] = useState<string>('');
   const [isDebouncing, setIsDebouncing] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(true);
   const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const [saving, setSaving] = useState(false);
   const { user, loading, error } = UseUser();
 
   useEffect(() => {
     setImageIndex(getRandomImageIndex(imageIds));
-  }, []);
-
-  useEffect(() => {
-    if (isDebouncing) {
-      return;
-    }
-    if (topTextInput) {
-      setTopText(topTextInput);
-    } else {
-      setTopText('');
-    }
-    if (bottomTextInput) {
-      setBottomText(bottomTextInput);
-    } else {
-      setBottomText('');
-    }
-
-    setTopTextSize(topTextSizeInput);
-    setBottomTextSize(bottomTextSizeInput);
-  }, [
-    isDebouncing,
-    topText,
-    topTextInput,
-    bottomText,
-    bottomTextInput,
-    topTextSizeInput,
-    bottomTextSizeInput,
-  ]);
-
-  const updateTimer = () => {
-    // setIsDebouncing(true);
-    // setIsImageLoaded(false);
-    // if (timer) {
-    //   clearTimeout(timer);
-    // }
-    // const id = setTimeout(() => {
-    //   setIsDebouncing(false);
-    // }, 1000);
-    // setTimer(id);
-  };
+  }, [imageIds]);
 
   const handleTopTextChange = (event: any) => {
-    setTopTextInput(event.currentTarget.value);
-    updateTimer();
+    setTopText(event.currentTarget.value);
   };
 
   const handleBottomTextChange = (event: any) => {
-    setBottomTextInput(event.currentTarget.value);
-    updateTimer();
+    setBottomText(event.currentTarget.value);
   };
 
   const handleTopTextSizeChange = (event: any) => {
-    setTopTextSizeInput(event.currentTarget.value);
-    updateTimer();
+    setTopTextSize(event.currentTarget.value);
   };
 
   const handleBottomTextSizeChange = (event: any) => {
-    setBottomTextSizeInput(event.currentTarget.value);
-    updateTimer();
+    setBottomTextSize(event.currentTarget.value);
   };
 
   const handleSave = async (event: React.SyntheticEvent) => {
+    setSaving(true);
     event.preventDefault();
     if (!user) {
       return;
@@ -110,10 +65,16 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           userID: user.$id,
           topText,
           bottomText,
+          topTextSize,
+          bottomTextSize,
         }
       );
+      setTopText('');
+      setBottomText('');
     } catch (error) {
       console.error(error);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -126,7 +87,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const handleShuffle = () => {
     const randomIndex = getRandomImageIndex(imageIds);
     setImageIndex(randomIndex);
-    // setIsImageLoaded(false);
+    setIsImageLoaded(false);
   };
 
   return (
@@ -156,7 +117,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
             <div className="mt-2.5">
               <input
                 type="text"
-                value={topTextInput}
+                value={topText}
                 name="topText"
                 id="topText"
                 className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -176,7 +137,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
               type="range"
               min={40}
               max={140}
-              value={topTextSizeInput}
+              value={topTextSize}
               className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
               onChange={handleTopTextSizeChange}
             />
@@ -191,7 +152,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
             <div className="mt-2.5">
               <input
                 type="text"
-                value={bottomTextInput}
+                value={bottomText}
                 name="bottomText"
                 id="bottomText"
                 className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -211,7 +172,7 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
               type="range"
               min={40}
               max={140}
-              value={bottomTextSizeInput}
+              value={bottomTextSize}
               className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
               onChange={handleBottomTextSizeChange}
             />
@@ -251,8 +212,11 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
           )}
         </div>
         {!loading && user && (
-          <button className="text-white text-lg rounded-md border-none bg-gray-600 px-4 py-2 hover:bg-gray-700">
-            Save
+          <button
+            className="text-white text-lg rounded-md border-none bg-gray-600 px-4 py-2 hover:bg-gray-700"
+            disabled={saving}
+          >
+            {saving ? 'Saving...' : 'Save'}
           </button>
         )}
         {!loading && !user && (
