@@ -34,7 +34,6 @@ export default function JQQMeme({
   const [overlays, setOverlays] = useState<any[]>([]);
   const imageRef = useRef(null);
   const { width } = useResize(imageRef);
-  console.log(width);
   const updateOverlays = () => {
     const tempOverlays = [];
 

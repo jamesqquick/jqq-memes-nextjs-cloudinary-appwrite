@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { databases } from '../utils/appwrite';
 import { ID } from 'appwrite';
 import { UseUser } from '@/hooks/User';
+import { useAlert } from '@/hooks/useAlert';
 import { BsShuffle } from 'react-icons/bs';
 
 import JQQMeme from './JQQMeme';
@@ -25,9 +26,9 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const [bottomTextSize, setBottomTextSize] = useState(80);
   const [isDebouncing, setIsDebouncing] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(true);
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
   const [saving, setSaving] = useState(false);
   const { user, loading, error } = UseUser();
+  const { addAlert } = useAlert();
 
   useEffect(() => {
     setImageIndex(getRandomImageIndex(imageIds));
@@ -71,8 +72,10 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
       );
       setTopText('');
       setBottomText('');
+      addAlert('Meme saved successfully!', 'success');
     } catch (error) {
       console.error(error);
+      addAlert('Error saving meme. Please try again.', 'error');
     } finally {
       setSaving(false);
     }
