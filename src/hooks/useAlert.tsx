@@ -25,7 +25,7 @@ type AlertContextType = {
 
 const AlertContext = createContext<AlertContextType | null>(null);
 
-export const AlertProvider: FC = ({ children }) => {
+export const AlertProvider = ({ children }: { children: any }) => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
 
   const addAlert = (
