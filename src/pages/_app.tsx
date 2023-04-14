@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
 import { Source_Sans_Pro } from 'next/font/google';
+import { AlertProvider } from '@/hooks/useAlert';
 
 //? Couldn't get this to work
 const sourceSansPro = Source_Sans_Pro({
@@ -15,14 +16,14 @@ const sourceSansPro = Source_Sans_Pro({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <UserProvider>
+    <UserProvider>
+      <AlertProvider>
         <Head>
           {/* <style jsx global>{`
             :root {
-              --font-source-sans-pro: ${sourceSansPro.variable};
+                --font-source-sans-pro: ${sourceSansPro.variable};
             }
-          `}</style> */}
+        `}</style> */}
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta
             name="viewport"
@@ -69,7 +70,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           </div>
           <Footer />
         </div>
-      </UserProvider>
-    </>
+      </AlertProvider>
+    </UserProvider>
   );
 }
