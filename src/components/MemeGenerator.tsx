@@ -25,7 +25,6 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
   const [topTextSize, setTopTextSize] = useState(80);
   const [bottomTextSize, setBottomTextSize] = useState(80);
   const [isDebouncing, setIsDebouncing] = useState(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(true);
   const [saving, setSaving] = useState(false);
   const { user, loading, error } = UseUser();
   const { addAlert } = useAlert();
@@ -81,16 +80,9 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
     }
   };
 
-  const handleOnLoadingComplete = (img: HTMLImageElement) => {
-    setTimeout(() => {
-      setIsImageLoaded(true);
-    }, 1000);
-  };
-
   const handleShuffle = () => {
     const randomIndex = getRandomImageIndex(imageIds);
     setImageIndex(randomIndex);
-    setIsImageLoaded(false);
   };
 
   return (
@@ -189,7 +181,6 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
                 topText={topText}
                 bottomText={bottomText}
                 imageId={imageIds[imageIndex]}
-                onLoadingCompleteCallback={handleOnLoadingComplete}
                 hasBorder={false}
                 topTextSize={topTextSize}
                 bottomTextSize={bottomTextSize}
@@ -202,15 +193,6 @@ export default function MemeGenerator({ imageIds }: MemeGeneratorProps) {
                   className="bg-indigo-500"
                 />
               </div>
-            </>
-          )}
-          {!isImageLoaded && (
-            <>
-              <div className="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 bg-blue-900 rounded-lg"></div>
-              <div
-                className="inline-block h-12 w-12 text-gray-100 animate-spin absolute top-1/2 rounded-full opacity-100 border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status"
-              ></div>
             </>
           )}
         </div>
